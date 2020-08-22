@@ -1,50 +1,25 @@
-import React from 'react';
-import {
-  ChakraProvider,
-  CSSReset,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-} from '@chakra-ui/core';
+import React, {useState} from 'react';
+import { ChakraProvider, CSSReset, Grid, Box, Flex } from '@chakra-ui/core';
 import theme from '@chakra-ui/theme';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import Header from './header';
+import Editor from './AceEditor'
+
 
 function App() {
-  return (
-    <ChakraProvider theme={theme}>
-      <CSSReset />
-      <Box textAlign="center" fontSize="xl">
-        <Grid
-          minH="100vh"
-          p={3}
-          direction="column"
-          align="center"
-          justify="center"
-        >
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
-    </ChakraProvider>
-  );
+	const [context, setContext] = useState('');
+	return (
+		<ChakraProvider theme={theme}>
+			<CSSReset />
+			<Header />
+			<Flex padding="1.5rem" h="80vh">
+				<Grid templateColumns="repeat(2, 1fr)" gap={6} w="100%">
+					<Box w="100%" h="100%"><Editor setContext={setContext} /></Box>
+					<Box w="100%" h="100%" id="preview" dangerouslySetInnerHTML={{__html: context}} />
+				</Grid>
+			</Flex>
+		</ChakraProvider>
+	);
 }
 
 export default App;
